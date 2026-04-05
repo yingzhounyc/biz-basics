@@ -4,30 +4,38 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biz Basics - Learn Cost, Profit & Breakeven</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,700;1,400&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; margin: 0; padding: 0; }
   :root {
-    --primary: #2563eb;
-    --primary-light: #dbeafe;
-    --success: #16a34a;
-    --success-light: #dcfce7;
-    --warning: #d97706;
-    --warning-light: #fef3c7;
-    --danger: #dc2626;
-    --danger-light: #fee2e2;
-    --gray-50: #f9fafb;
-    --gray-100: #f3f4f6;
-    --gray-200: #e5e7eb;
-    --gray-300: #d1d5db;
-    --gray-500: #6b7280;
-    --gray-700: #374151;
-    --gray-900: #111827;
-    --radius: 12px;
+    /* 3cslab Brand Colors */
+    --primary: #003366;         /* Deep Navy */
+    --primary-light: #e8f0f8;   /* Navy tint for backgrounds */
+    --accent: #FF5722;          /* Vibrant Orange */
+    --accent-hover: #FF8A65;    /* Salmon (hover) */
+    --soft-blue: #80B0D4;       /* Supporting */
+    --soft-blue-light: #e3eef6; /* Soft Blue tint */
+    --success: #2e7d32;         /* Green for profit */
+    --success-light: #e8f5e9;
+    --warning: #FF5722;         /* Orange for warnings */
+    --warning-light: #fff3e0;
+    --danger: #c62828;          /* Red for loss */
+    --danger-light: #ffebee;
+    --gray-50: #F5F7FA;         /* Off-White */
+    --gray-100: #edf0f4;
+    --gray-200: #B0BEC5;        /* Cool Gray */
+    --gray-300: #B0BEC5;
+    --gray-500: #666666;        /* Medium Gray */
+    --gray-700: #333333;        /* Dark Gray */
+    --gray-900: #1a1a2e;
+    --radius: 8px;
   }
   body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background: var(--gray-50);
-    color: var(--gray-900);
+    color: var(--gray-700);
     line-height: 1.6;
     min-height: 100vh;
   }
@@ -41,14 +49,18 @@
     padding: 32px 0 24px;
   }
   header h1 {
+    font-family: 'Inter', sans-serif;
     font-size: 28px;
     font-weight: 800;
     color: var(--primary);
   }
+  header h1 span.accent { color: var(--accent); }
   header p {
+    font-family: 'Merriweather', serif;
+    font-style: italic;
     color: var(--gray-500);
-    margin-top: 4px;
-    font-size: 15px;
+    margin-top: 6px;
+    font-size: 13px;
   }
 
   /* Progress bar */
@@ -64,8 +76,8 @@
     border-radius: 3px;
     transition: background 0.3s;
   }
-  .progress-step.active { background: var(--primary); }
-  .progress-step.done { background: var(--success); }
+  .progress-step.active { background: var(--accent); }
+  .progress-step.done { background: var(--primary); }
   .step-labels {
     display: flex;
     gap: 6px;
@@ -74,6 +86,7 @@
   .step-labels span {
     flex: 1;
     text-align: center;
+    font-family: 'Inter', sans-serif;
     font-size: 11px;
     color: var(--gray-500);
     font-weight: 600;
@@ -84,20 +97,23 @@
     border-radius: 4px;
     transition: color 0.2s, background 0.2s;
   }
-  .step-labels span:hover { color: var(--primary); background: var(--primary-light); }
-  .step-labels span.active { color: var(--primary); }
+  .step-labels span:hover { color: var(--accent); background: var(--warning-light); }
+  .step-labels span.active { color: var(--accent); }
 
   /* Cards */
   .card {
     background: #fff;
     border-radius: var(--radius);
     padding: 28px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    box-shadow: 0 1px 3px rgba(0,51,102,0.06);
     margin-bottom: 20px;
     border: 1px solid var(--gray-200);
   }
   .card h2 {
+    font-family: 'Inter', sans-serif;
     font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
     margin-bottom: 6px;
   }
   .card .subtitle {
@@ -108,8 +124,8 @@
 
   /* Concept boxes */
   .concept-box {
-    background: var(--primary-light);
-    border-left: 4px solid var(--primary);
+    background: var(--soft-blue-light);
+    border-left: 4px solid var(--soft-blue);
     border-radius: 0 8px 8px 0;
     padding: 16px 18px;
     margin-bottom: 20px;
@@ -123,13 +139,14 @@
   .concept-box.green strong { color: var(--success); }
   .concept-box.amber {
     background: var(--warning-light);
-    border-left-color: var(--warning);
+    border-left-color: var(--accent);
   }
-  .concept-box.amber strong { color: var(--warning); }
+  .concept-box.amber strong { color: var(--accent); }
 
   /* Form elements */
   label {
     display: block;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 6px;
@@ -152,7 +169,7 @@
   input:focus, select:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    box-shadow: 0 0 0 3px rgba(0,51,102,0.1);
   }
   .input-group {
     margin-bottom: 18px;
@@ -234,29 +251,33 @@
 
   /* Buttons */
   .btn {
+    font-family: 'Inter', sans-serif;
     padding: 12px 28px;
-    border-radius: 8px;
-    font-size: 15px;
+    border-radius: 4px;
+    font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     border: none;
     transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
   }
   .btn-primary {
-    background: var(--primary);
+    background: var(--accent);
     color: #fff;
   }
-  .btn-primary:hover { background: #1d4ed8; }
+  .btn-primary:hover { background: var(--accent-hover); }
   .btn-primary:disabled {
     background: var(--gray-300);
     cursor: not-allowed;
   }
   .btn-outline {
     background: #fff;
-    color: var(--gray-700);
-    border: 1.5px solid var(--gray-300);
+    color: var(--primary);
+    border: 1.5px solid var(--primary);
+    text-transform: none;
   }
-  .btn-outline:hover { background: var(--gray-100); }
+  .btn-outline:hover { background: var(--primary-light); }
   .btn-row {
     display: flex;
     justify-content: space-between;
@@ -281,7 +302,8 @@
   .result-card.amber { background: var(--warning-light); }
   .result-card.red { background: var(--danger-light); }
   .result-card .label {
-    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -289,12 +311,13 @@
     margin-bottom: 4px;
   }
   .result-card .value {
+    font-family: 'Inter', sans-serif;
     font-size: 26px;
     font-weight: 800;
   }
   .result-card.blue .value { color: var(--primary); }
   .result-card.green .value { color: var(--success); }
-  .result-card.amber .value { color: var(--warning); }
+  .result-card.amber .value { color: var(--accent); }
   .result-card.red .value { color: var(--danger); }
   .result-card .detail {
     font-size: 12px;
@@ -311,9 +334,11 @@
     border: 1px solid var(--gray-200);
   }
   .chart-container h3 {
-    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
     margin-bottom: 14px;
-    color: var(--gray-700);
+    color: var(--primary);
   }
   canvas { width: 100% !important; }
 
@@ -327,14 +352,15 @@
     align-items: center;
   }
   .slider-group label span {
-    font-weight: 400;
-    color: var(--primary);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    color: var(--accent);
     font-size: 16px;
   }
   input[type="range"] {
     width: 100%;
     margin-top: 6px;
-    accent-color: var(--primary);
+    accent-color: var(--accent);
     height: 6px;
   }
 
@@ -357,8 +383,9 @@
     overflow: hidden;
     transition: border-color 0.2s;
   }
-  .glossary-item[open] { border-color: var(--primary); }
+  .glossary-item[open] { border-color: var(--accent); }
   .glossary-item summary {
+    font-family: 'Inter', sans-serif;
     padding: 14px 18px;
     font-weight: 700;
     font-size: 15px;
@@ -379,7 +406,7 @@
     font-weight: 400;
     transition: transform 0.2s;
   }
-  .glossary-item[open] summary::after { content: '\2212'; color: var(--primary); }
+  .glossary-item[open] summary::after { content: '\2212'; color: var(--accent); }
   .glossary-item summary:hover { background: var(--gray-50); }
   .glossary-icon { font-size: 20px; }
   .glossary-body {
@@ -390,7 +417,7 @@
   }
   .glossary-body p { margin-bottom: 8px; }
   .glossary-body code {
-    background: var(--primary-light);
+    background: var(--soft-blue-light);
     padding: 2px 8px;
     border-radius: 4px;
     font-size: 13px;
@@ -417,7 +444,7 @@
 <body>
 <div class="container">
   <header>
-    <h1>Biz Basics</h1>
+    <h1>Biz <span class="accent">Basics</span></h1>
     <p>Learn cost, profit & breakeven with your own business idea</p>
   </header>
 
@@ -955,14 +982,14 @@
         datasets: [{
           label: 'Monthly Profit / Loss ($)',
           data: profits,
-          borderColor: '#2563eb',
-          backgroundColor: profits.map(v => v >= 0 ? 'rgba(22,163,74,0.15)' : 'rgba(220,38,38,0.1)'),
+          borderColor: '#003366',
+          backgroundColor: profits.map(v => v >= 0 ? 'rgba(0,51,102,0.12)' : 'rgba(198,40,40,0.1)'),
           fill: true,
           tension: 0.2,
           pointRadius: 2,
           borderWidth: 2.5,
           segment: {
-            borderColor: ctx2 => ctx2.p0.parsed.y < 0 && ctx2.p1.parsed.y < 0 ? '#dc2626' : ctx2.p0.parsed.y >= 0 && ctx2.p1.parsed.y >= 0 ? '#16a34a' : '#d97706'
+            borderColor: ctx2 => ctx2.p0.parsed.y < 0 && ctx2.p1.parsed.y < 0 ? '#c62828' : ctx2.p0.parsed.y >= 0 && ctx2.p1.parsed.y >= 0 ? '#003366' : '#FF5722'
           }
         }]
       },
@@ -1059,8 +1086,8 @@
           {
             label: 'Revenue',
             data: revData,
-            borderColor: '#16a34a',
-            backgroundColor: 'rgba(22,163,74,0.08)',
+            borderColor: '#003366',
+            backgroundColor: 'rgba(0,51,102,0.08)',
             fill: false,
             tension: 0,
             borderWidth: 2.5,
@@ -1069,8 +1096,8 @@
           {
             label: 'Total Costs',
             data: costData,
-            borderColor: '#dc2626',
-            backgroundColor: 'rgba(220,38,38,0.08)',
+            borderColor: '#FF5722',
+            backgroundColor: 'rgba(255,87,34,0.08)',
             fill: false,
             tension: 0,
             borderWidth: 2.5,
