@@ -1,0 +1,1101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biz Basics - Learn Cost, Profit & Breakeven</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --primary: #2563eb;
+    --primary-light: #dbeafe;
+    --success: #16a34a;
+    --success-light: #dcfce7;
+    --warning: #d97706;
+    --warning-light: #fef3c7;
+    --danger: #dc2626;
+    --danger-light: #fee2e2;
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-500: #6b7280;
+    --gray-700: #374151;
+    --gray-900: #111827;
+    --radius: 12px;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+  .container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 24px 20px 80px;
+  }
+  header {
+    text-align: center;
+    padding: 32px 0 24px;
+  }
+  header h1 {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+  }
+  header p {
+    color: var(--gray-500);
+    margin-top: 4px;
+    font-size: 15px;
+  }
+
+  /* Progress bar */
+  .progress-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 32px;
+  }
+  .progress-step {
+    flex: 1;
+    height: 6px;
+    background: var(--gray-200);
+    border-radius: 3px;
+    transition: background 0.3s;
+  }
+  .progress-step.active { background: var(--primary); }
+  .progress-step.done { background: var(--success); }
+  .step-labels {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+  }
+  .step-labels span {
+    flex: 1;
+    text-align: center;
+    font-size: 11px;
+    color: var(--gray-500);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    padding: 4px 0;
+    border-radius: 4px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .step-labels span:hover { color: var(--primary); background: var(--primary-light); }
+  .step-labels span.active { color: var(--primary); }
+
+  /* Cards */
+  .card {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 28px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    margin-bottom: 20px;
+    border: 1px solid var(--gray-200);
+  }
+  .card h2 {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
+  .card .subtitle {
+    color: var(--gray-500);
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+
+  /* Concept boxes */
+  .concept-box {
+    background: var(--primary-light);
+    border-left: 4px solid var(--primary);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 18px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  .concept-box strong { color: var(--primary); }
+  .concept-box.green {
+    background: var(--success-light);
+    border-left-color: var(--success);
+  }
+  .concept-box.green strong { color: var(--success); }
+  .concept-box.amber {
+    background: var(--warning-light);
+    border-left-color: var(--warning);
+  }
+  .concept-box.amber strong { color: var(--warning); }
+
+  /* Form elements */
+  label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: var(--gray-700);
+  }
+  .helper {
+    font-size: 13px;
+    color: var(--gray-500);
+    margin-bottom: 6px;
+  }
+  input[type="text"], input[type="number"], select {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--gray-300);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.2s;
+    background: #fff;
+  }
+  input:focus, select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+  }
+  .input-group {
+    margin-bottom: 18px;
+  }
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .input-prefix {
+    position: relative;
+  }
+  .input-prefix span {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--gray-500);
+    font-size: 16px;
+    pointer-events: none;
+  }
+  .input-prefix input {
+    padding-left: 28px;
+  }
+
+  /* Cost item rows */
+  .cost-item {
+    display: grid;
+    grid-template-columns: 1fr 120px 40px;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 10px;
+  }
+  .cost-item .remove-btn {
+    background: none;
+    border: none;
+    color: var(--danger);
+    cursor: pointer;
+    font-size: 20px;
+    padding: 8px;
+    border-radius: 6px;
+    transition: background 0.2s;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cost-item .remove-btn:hover { background: var(--danger-light); }
+  .add-btn {
+    background: none;
+    border: 1.5px dashed var(--gray-300);
+    color: var(--gray-500);
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.2s;
+    margin-top: 4px;
+  }
+  .add-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+  }
+
+  /* Cost summary inline */
+  .cost-total {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--gray-100);
+    border-radius: 8px;
+    font-weight: 700;
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  /* Buttons */
+  .btn {
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: #fff;
+  }
+  .btn-primary:hover { background: #1d4ed8; }
+  .btn-primary:disabled {
+    background: var(--gray-300);
+    cursor: not-allowed;
+  }
+  .btn-outline {
+    background: #fff;
+    color: var(--gray-700);
+    border: 1.5px solid var(--gray-300);
+  }
+  .btn-outline:hover { background: var(--gray-100); }
+  .btn-row {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+
+  /* Results */
+  .result-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .result-card {
+    padding: 18px;
+    border-radius: 10px;
+    text-align: center;
+  }
+  .result-card.blue { background: var(--primary-light); }
+  .result-card.green { background: var(--success-light); }
+  .result-card.amber { background: var(--warning-light); }
+  .result-card.red { background: var(--danger-light); }
+  .result-card .label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--gray-500);
+    margin-bottom: 4px;
+  }
+  .result-card .value {
+    font-size: 26px;
+    font-weight: 800;
+  }
+  .result-card.blue .value { color: var(--primary); }
+  .result-card.green .value { color: var(--success); }
+  .result-card.amber .value { color: var(--warning); }
+  .result-card.red .value { color: var(--danger); }
+  .result-card .detail {
+    font-size: 12px;
+    color: var(--gray-500);
+    margin-top: 2px;
+  }
+
+  /* Chart */
+  .chart-container {
+    background: #fff;
+    border-radius: var(--radius);
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid var(--gray-200);
+  }
+  .chart-container h3 {
+    font-size: 15px;
+    margin-bottom: 14px;
+    color: var(--gray-700);
+  }
+  canvas { width: 100% !important; }
+
+  /* Scenario slider */
+  .slider-group {
+    margin: 16px 0;
+  }
+  .slider-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .slider-group label span {
+    font-weight: 400;
+    color: var(--primary);
+    font-size: 16px;
+  }
+  input[type="range"] {
+    width: 100%;
+    margin-top: 6px;
+    accent-color: var(--primary);
+    height: 6px;
+  }
+
+  /* Section hidden */
+  .step-section { display: none; }
+  .step-section.visible { display: block; }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .step-section.visible { animation: fadeIn 0.35s ease; }
+
+  /* Glossary */
+  .glossary-list { display: flex; flex-direction: column; gap: 8px; }
+  .glossary-item {
+    border: 1.5px solid var(--gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  .glossary-item[open] { border-color: var(--primary); }
+  .glossary-item summary {
+    padding: 14px 18px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    user-select: none;
+    transition: background 0.2s;
+  }
+  .glossary-item summary::-webkit-details-marker { display: none; }
+  .glossary-item summary::after {
+    content: '+';
+    margin-left: auto;
+    font-size: 20px;
+    color: var(--gray-500);
+    font-weight: 400;
+    transition: transform 0.2s;
+  }
+  .glossary-item[open] summary::after { content: '\2212'; color: var(--primary); }
+  .glossary-item summary:hover { background: var(--gray-50); }
+  .glossary-icon { font-size: 20px; }
+  .glossary-body {
+    padding: 0 18px 16px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--gray-700);
+  }
+  .glossary-body p { margin-bottom: 8px; }
+  .glossary-body code {
+    background: var(--primary-light);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: var(--primary);
+    font-weight: 600;
+  }
+  .glossary-example {
+    background: var(--gray-100);
+    border-radius: 8px;
+    padding: 12px 14px;
+    font-style: italic;
+    color: var(--gray-500);
+    margin-top: 4px;
+  }
+
+  /* Responsive */
+  @media (max-width: 500px) {
+    .input-row { grid-template-columns: 1fr; }
+    .result-grid { grid-template-columns: 1fr; }
+    .cost-item { grid-template-columns: 1fr 100px 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>Biz Basics</h1>
+    <p>Learn cost, profit & breakeven with your own business idea</p>
+  </header>
+
+  <div class="step-labels" id="stepLabels">
+    <span onclick="goToStep(1,true)">Your Biz</span>
+    <span onclick="goToStep(2,true)">Costs</span>
+    <span onclick="goToStep(3,true)">Pricing</span>
+    <span onclick="goToStep(4,true)">Results</span>
+    <span onclick="goToStep(5,true)">Explore</span>
+    <span onclick="goToStep(6,true)">Glossary</span>
+  </div>
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+    <div class="progress-step"></div>
+  </div>
+
+  <!-- STEP 1: Business Info -->
+  <div class="step-section visible" id="step1">
+    <div class="card">
+      <h2>Tell us about your business</h2>
+      <p class="subtitle">We'll use your real idea to teach cost, profit, and breakeven.</p>
+
+      <div class="input-group">
+        <label for="bizName">What's your business name or idea?</label>
+        <input type="text" id="bizName" placeholder='e.g. "Sunrise Bakery" or "Online tutoring"'>
+      </div>
+
+      <div class="input-group">
+        <label for="bizProduct">What do you sell?</label>
+        <p class="helper">Describe one product or service to focus on.</p>
+        <input type="text" id="bizProduct" placeholder='e.g. "Cupcakes" or "1-hour math lesson"'>
+      </div>
+
+      <div class="concept-box">
+        <strong>Why start here?</strong> Every business sells something. Understanding the costs behind that one product is the foundation of knowing whether your business can make money.
+      </div>
+
+      <div class="btn-row" style="justify-content:flex-end">
+        <button class="btn btn-primary" onclick="goToStep(2)">Next: Enter Your Costs &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 2: Costs -->
+  <div class="step-section" id="step2">
+    <div class="card">
+      <h2>Fixed Costs</h2>
+      <p class="subtitle">These stay the same no matter how many <span class="product-name">units</span> you sell.</p>
+
+      <div class="concept-box">
+        <strong>What are Fixed Costs?</strong> Rent, insurance, website hosting, loan payments &mdash; bills you pay every month whether you sell 1 item or 1,000.
+      </div>
+
+      <div id="fixedCostsContainer">
+        <div class="cost-item">
+          <div>
+            <label>Description</label>
+            <input type="text" class="fc-name" placeholder="e.g. Rent">
+          </div>
+          <div class="input-prefix">
+            <label>Monthly $</label>
+            <span>$</span>
+            <input type="number" class="fc-amount" min="0" placeholder="0">
+          </div>
+          <button class="remove-btn" onclick="removeCost(this)" title="Remove">&times;</button>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addCostRow('fixed')">+ Add fixed cost</button>
+
+      <div class="cost-total">
+        <span>Total Fixed Costs / month</span>
+        <span id="fixedTotal">$0</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Variable Costs</h2>
+      <p class="subtitle">These change based on how many <span class="product-name">units</span> you make/sell.</p>
+
+      <div class="concept-box amber">
+        <strong>What are Variable Costs?</strong> Ingredients, packaging, shipping, sales commissions &mdash; costs that go up with each additional item you produce or sell.
+      </div>
+
+      <div id="varCostsContainer">
+        <div class="cost-item">
+          <div>
+            <label>Description</label>
+            <input type="text" class="vc-name" placeholder="e.g. Ingredients per unit">
+          </div>
+          <div class="input-prefix">
+            <label>Per Unit $</label>
+            <span>$</span>
+            <input type="number" class="vc-amount" min="0" step="0.01" placeholder="0">
+          </div>
+          <button class="remove-btn" onclick="removeCost(this)" title="Remove">&times;</button>
+        </div>
+      </div>
+      <button class="add-btn" onclick="addCostRow('variable')">+ Add variable cost</button>
+
+      <div class="cost-total">
+        <span>Total Variable Cost / unit</span>
+        <span id="varTotal">$0.00</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(1)">&larr; Back</button>
+        <button class="btn btn-primary" onclick="goToStep(3)">Next: Set Your Price &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3: Pricing -->
+  <div class="step-section" id="step3">
+    <div class="card">
+      <h2>Set Your Price</h2>
+      <p class="subtitle">How much will you charge for each <span class="product-name">unit</span>?</p>
+
+      <div class="concept-box green">
+        <strong>Price vs Cost</strong><br>
+        Your <em>cost</em> is what you spend to make the product. Your <em>price</em> is what the customer pays you. The difference is your <strong>profit per unit</strong> (also called <em>contribution margin</em>).
+      </div>
+
+      <div class="input-group">
+        <label for="unitPrice">Selling price per <span class="product-name">unit</span></label>
+        <div class="input-prefix">
+          <span>$</span>
+          <input type="number" id="unitPrice" min="0" step="0.01" placeholder="0.00">
+        </div>
+      </div>
+
+      <div id="marginPreview" style="display:none">
+        <div class="cost-total" style="margin-top:0; margin-bottom:10px">
+          <span>Variable cost per unit</span>
+          <span id="prevVC">$0</span>
+        </div>
+        <div class="cost-total" style="background:var(--success-light)">
+          <span>Contribution margin per unit</span>
+          <span id="prevMargin" style="color:var(--success)">$0</span>
+        </div>
+        <p class="helper" style="margin-top:10px" id="marginNote"></p>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(2)">&larr; Back</button>
+        <button class="btn btn-primary" id="calcBtn" onclick="calculate()">Calculate Results &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 4: Results -->
+  <div class="step-section" id="step4">
+    <div class="card">
+      <h2 id="resultsTitle">Results for Your Business</h2>
+      <p class="subtitle" id="resultsSubtitle"></p>
+
+      <div class="result-grid">
+        <div class="result-card blue">
+          <div class="label">Fixed Costs / mo</div>
+          <div class="value" id="rFixed">$0</div>
+        </div>
+        <div class="result-card amber">
+          <div class="label">Variable Cost / unit</div>
+          <div class="value" id="rVar">$0</div>
+        </div>
+        <div class="result-card green">
+          <div class="label">Contribution Margin</div>
+          <div class="value" id="rMargin">$0</div>
+          <div class="detail" id="rMarginPct"></div>
+        </div>
+        <div class="result-card" id="beCard">
+          <div class="label">Breakeven Point</div>
+          <div class="value" id="rBreakeven">--</div>
+          <div class="detail" id="rBeDetail"></div>
+        </div>
+      </div>
+
+      <div class="concept-box green">
+        <strong>What is Breakeven?</strong><br>
+        <span id="beExplain"></span>
+      </div>
+
+      <div class="chart-container">
+        <h3>Profit / Loss by Units Sold Per Month</h3>
+        <canvas id="profitChart" height="260"></canvas>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(3)">&larr; Adjust Price</button>
+        <button class="btn btn-primary" onclick="goToStep(5)">Explore Scenarios &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 5: Explore -->
+  <div class="step-section" id="step5">
+    <div class="card">
+      <h2>What If? Scenario Explorer</h2>
+      <p class="subtitle">Slide the controls to see how changes affect your bottom line.</p>
+
+      <div class="slider-group">
+        <label>Monthly units sold <span id="sUnitsVal">0</span></label>
+        <input type="range" id="sUnits" min="0" max="500" value="0" oninput="updateScenario()">
+      </div>
+      <div class="slider-group">
+        <label>Selling price <span id="sPriceVal">$0</span></label>
+        <input type="range" id="sPrice" min="0" max="200" step="0.5" value="0" oninput="updateScenario()">
+      </div>
+      <div class="slider-group">
+        <label>Fixed costs / month <span id="sFixedVal">$0</span></label>
+        <input type="range" id="sFixed" min="0" max="10000" step="50" value="0" oninput="updateScenario()">
+      </div>
+
+      <div class="result-grid" style="margin-top:20px">
+        <div class="result-card blue">
+          <div class="label">Revenue</div>
+          <div class="value" id="sRevenue">$0</div>
+        </div>
+        <div class="result-card amber">
+          <div class="label">Variable Cost / Unit</div>
+          <div class="value" id="sVarCost">$0</div>
+        </div>
+        <div class="result-card amber">
+          <div class="label">Total Costs</div>
+          <div class="value" id="sTotalCost">$0</div>
+        </div>
+        <div class="result-card" id="sProfitCard">
+          <div class="label">Monthly Profit</div>
+          <div class="value" id="sProfit">$0</div>
+        </div>
+        <div class="result-card" id="sBeCard">
+          <div class="label">Breakeven Units</div>
+          <div class="value" id="sBe">--</div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h3>Revenue vs. Costs</h3>
+        <canvas id="scenarioChart" height="260"></canvas>
+      </div>
+
+      <div class="concept-box">
+        <strong>Key Takeaway:</strong> <span id="scenarioTip">Adjust the sliders above to explore different scenarios.</span>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(4)">&larr; Back to Results</button>
+        <button class="btn btn-primary" onclick="goToStep(6)">Glossary &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6: Glossary -->
+  <div class="step-section" id="step6">
+    <div class="card">
+      <h2>Glossary of Key Concepts</h2>
+      <p class="subtitle">Tap any term to expand its definition and see a real-world example.</p>
+
+      <div class="glossary-list">
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128176;</span> Revenue</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The total money your business brings in from sales before any costs are subtracted.</p>
+            <p><strong>Formula:</strong> <code>Revenue = Price per Unit &times; Number of Units Sold</code></p>
+            <p class="glossary-example">If you sell 200 cupcakes at $4 each, your revenue is $800. Revenue is NOT profit &mdash; you still need to pay your costs out of it.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128230;</span> Unit of Sale</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The single item or service you deliver to a customer in one transaction.</p>
+            <p class="glossary-example">For a bakery, it might be one cupcake. For a tutor, it could be one hour-long session. For a subscription box, it's one box. Defining your unit of sale clearly is the first step to understanding your costs and pricing.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#127991;</span> Price per Unit</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The amount you charge a customer for one unit of sale.</p>
+            <p class="glossary-example">If you charge $4 for a cupcake or $60 for a tutoring session, that's your price per unit. Setting this too low means you can't cover costs; too high and customers may not buy.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128178;</span> Direct Cost</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> Costs that can be traced directly to producing a specific product or service. These include both materials and labor.</p>
+            <p><strong>Direct Materials:</strong> Raw inputs that become part of the product &mdash; flour, sugar, and butter for a cupcake, or fabric for a t-shirt.</p>
+            <p><strong>Direct Labor:</strong> Wages paid to workers whose time is spent making the product. A baker decorating cupcakes, a tutor delivering a lesson, or a carpenter building a table &mdash; their hours can be tied to specific units produced.</p>
+            <p class="glossary-example">If you pay a baker $20/hr and she spends 3 minutes decorating each cupcake, the direct labor cost per cupcake is $1.00. Combined with $1.50 in ingredients (direct materials), your total direct cost per cupcake is $2.50.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128203;</span> Indirect Cost</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> Costs that support your business overall but can't be tied to one specific product. These include both overhead expenses and certain types of labor.</p>
+            <p><strong>Indirect Overhead:</strong> Rent, utilities, insurance, accounting software, marketing &mdash; expenses that keep the business running but aren't tied to any single unit.</p>
+            <p><strong>Indirect Labor:</strong> Wages paid to employees who support the business but don't directly produce the product. A bakery manager supervising the team, a receptionist answering phones, or a janitor cleaning the shop &mdash; their work is essential but can't be traced to a specific cupcake.</p>
+            <p class="glossary-example">Your bakery manager earns $4,000/month overseeing all operations. Unlike the baker decorating cupcakes (direct labor), the manager's salary is an indirect labor cost &mdash; it supports everything but isn't tied to any one product.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128200;</span> Variable Cost</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> Costs that increase or decrease based on how many units you produce or sell.</p>
+            <p><strong>Key idea:</strong> More sales = higher variable costs.</p>
+            <p class="glossary-example">If each cupcake uses $1.50 in ingredients, making 100 cupcakes costs $150 in ingredients and making 200 costs $300. The cost varies with volume.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128204;</span> Fixed Cost</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> Costs that stay the same regardless of how many units you sell.</p>
+            <p><strong>Key idea:</strong> You pay these even if you sell nothing.</p>
+            <p class="glossary-example">Rent of $2,000/month is due whether you sell 10 cupcakes or 10,000. Other examples: insurance, salaries, loan payments, software subscriptions.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128184;</span> Profit</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The money left over after you subtract all costs from your revenue. This is what you actually earn.</p>
+            <p><strong>Formula:</strong> <code>Profit = Revenue &minus; Total Costs</code></p>
+            <p class="glossary-example">If your cupcake shop earns $3,000 in revenue and your total costs (rent, ingredients, packaging, etc.) are $2,200, your profit is $800. If costs exceed revenue, you have a loss.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#128202;</span> Profit Margin</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The percentage of each dollar of revenue that becomes profit. It tells you how efficiently your business converts sales into earnings.</p>
+            <p><strong>Formula:</strong> <code>Profit Margin = (Profit &divide; Revenue) &times; 100%</code></p>
+            <p class="glossary-example">If you make $800 profit on $3,000 revenue, your profit margin is 26.7%. A higher margin means more of every sale goes into your pocket rather than covering costs.</p>
+          </div>
+        </details>
+
+        <details class="glossary-item">
+          <summary><span class="glossary-icon">&#9878;</span> Breakeven</summary>
+          <div class="glossary-body">
+            <p><strong>Definition:</strong> The point where your total revenue exactly equals your total costs &mdash; no profit, no loss. Selling beyond this point means you start making profit.</p>
+            <p><strong>Formula:</strong> <code>Breakeven Units = Fixed Costs &divide; (Price per Unit &minus; Variable Cost per Unit)</code></p>
+            <p class="glossary-example">If your fixed costs are $2,000/month, you charge $4/cupcake, and each cupcake costs $1.50 to make, your breakeven is 2,000 &divide; 2.50 = 800 cupcakes. Sell more than 800 and you're profitable!</p>
+          </div>
+        </details>
+
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-outline" onclick="goToStep(5)">&larr; Back to Explorer</button>
+        <button class="btn btn-outline" onclick="goToStep(1)">Start Over</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+  // ---- State ----
+  let currentStep = 1;
+  let bizData = {};
+  let profitChartInstance = null;
+  let scenarioChartInstance = null;
+
+  // ---- Navigation ----
+  function goToStep(n, skipValidation) {
+    if (!skipValidation && n === 2) {
+      if (!document.getElementById('bizName').value.trim() || !document.getElementById('bizProduct').value.trim()) {
+        alert('Please fill in your business name and product first.');
+        return;
+      }
+    }
+    if (document.getElementById('bizName').value.trim() && document.getElementById('bizProduct').value.trim()) {
+      updateProductNames();
+    }
+    if (n === 3 || n === 4 || n === 5) {
+      recalcTotals();
+    }
+    document.querySelectorAll('.step-section').forEach(s => s.classList.remove('visible'));
+    document.getElementById('step' + n).classList.add('visible');
+    currentStep = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function updateProgress() {
+    const steps = document.querySelectorAll('.progress-step');
+    const labels = document.querySelectorAll('.step-labels span');
+    steps.forEach((s, i) => {
+      s.classList.remove('active', 'done');
+      labels[i].classList.remove('active');
+      if (i + 1 < currentStep) s.classList.add('done');
+      if (i + 1 === currentStep) { s.classList.add('active'); labels[i].classList.add('active'); }
+    });
+  }
+
+  function updateProductNames() {
+    const name = document.getElementById('bizProduct').value.trim() || 'units';
+    document.querySelectorAll('.product-name').forEach(el => el.textContent = name);
+  }
+
+  // ---- Cost Rows ----
+  function addCostRow(type) {
+    const container = type === 'fixed' ? document.getElementById('fixedCostsContainer') : document.getElementById('varCostsContainer');
+    const cls = type === 'fixed' ? 'fc' : 'vc';
+    const placeholderName = type === 'fixed' ? 'e.g. Insurance' : 'e.g. Packaging';
+    const amountLabel = type === 'fixed' ? 'Monthly $' : 'Per Unit $';
+    const div = document.createElement('div');
+    div.className = 'cost-item';
+    div.innerHTML = `
+      <div><label>Description</label><input type="text" class="${cls}-name" placeholder="${placeholderName}"></div>
+      <div class="input-prefix"><label>${amountLabel}</label><span>$</span><input type="number" class="${cls}-amount" min="0" step="0.01" placeholder="0"></div>
+      <button class="remove-btn" onclick="removeCost(this)" title="Remove">&times;</button>`;
+    container.appendChild(div);
+  }
+
+  function removeCost(btn) {
+    const container = btn.closest('.cost-item').parentElement;
+    if (container.querySelectorAll('.cost-item').length > 1) {
+      btn.closest('.cost-item').remove();
+      recalcTotals();
+    }
+  }
+
+  // live recalc
+  document.addEventListener('input', (e) => {
+    if (e.target.classList.contains('fc-amount') || e.target.classList.contains('vc-amount')) recalcTotals();
+    if (e.target.id === 'unitPrice') updateMarginPreview();
+  });
+
+  function recalcTotals() {
+    let fc = 0;
+    document.querySelectorAll('.fc-amount').forEach(i => fc += parseFloat(i.value) || 0);
+    document.getElementById('fixedTotal').textContent = '$' + fc.toLocaleString('en-US', { minimumFractionDigits: 0 });
+
+    let vc = 0;
+    document.querySelectorAll('.vc-amount').forEach(i => vc += parseFloat(i.value) || 0);
+    document.getElementById('varTotal').textContent = '$' + vc.toFixed(2);
+
+    bizData.fixedCosts = fc;
+    bizData.varCostPerUnit = vc;
+    updateMarginPreview();
+  }
+
+  function updateMarginPreview() {
+    const price = parseFloat(document.getElementById('unitPrice').value) || 0;
+    const vc = bizData.varCostPerUnit || 0;
+    const margin = price - vc;
+    const preview = document.getElementById('marginPreview');
+    if (price > 0) {
+      preview.style.display = 'block';
+      document.getElementById('prevVC').textContent = '$' + vc.toFixed(2);
+      document.getElementById('prevMargin').textContent = '$' + margin.toFixed(2);
+      document.getElementById('prevMargin').style.color = margin > 0 ? 'var(--success)' : 'var(--danger)';
+      if (margin <= 0) {
+        document.getElementById('marginNote').textContent = 'Your price doesn\'t cover variable costs. You\'ll lose money on every sale!';
+        document.getElementById('marginNote').style.color = 'var(--danger)';
+      } else {
+        document.getElementById('marginNote').textContent = 'Each sale contributes $' + margin.toFixed(2) + ' toward covering your fixed costs and profit.';
+        document.getElementById('marginNote').style.color = 'var(--success)';
+      }
+    } else {
+      preview.style.display = 'none';
+    }
+  }
+
+  // ---- Calculate ----
+  function calculate() {
+    recalcTotals();
+    const price = parseFloat(document.getElementById('unitPrice').value) || 0;
+    if (price <= 0) { alert('Please enter a selling price.'); return; }
+
+    const fc = bizData.fixedCosts;
+    const vc = bizData.varCostPerUnit;
+    const margin = price - vc;
+    const product = document.getElementById('bizProduct').value.trim();
+    const bizName = document.getElementById('bizName').value.trim();
+
+    bizData.price = price;
+    bizData.margin = margin;
+
+    document.getElementById('resultsTitle').textContent = 'Results for ' + bizName;
+    document.getElementById('resultsSubtitle').textContent = 'Selling ' + product + ' at $' + price.toFixed(2) + ' each';
+
+    document.getElementById('rFixed').textContent = '$' + fc.toLocaleString();
+    document.getElementById('rVar').textContent = '$' + vc.toFixed(2);
+    document.getElementById('rMargin').textContent = '$' + margin.toFixed(2);
+    document.getElementById('rMarginPct').textContent = ((margin / price) * 100).toFixed(1) + '% of price';
+
+    const beCard = document.getElementById('beCard');
+    if (margin <= 0) {
+      document.getElementById('rBreakeven').textContent = 'N/A';
+      document.getElementById('rBeDetail').textContent = 'Price too low!';
+      beCard.className = 'result-card red';
+      document.getElementById('beExplain').textContent = 'Your price ($' + price.toFixed(2) + ') doesn\'t cover the variable cost ($' + vc.toFixed(2) + ') per unit. You need to raise your price above $' + vc.toFixed(2) + ' first.';
+    } else {
+      const be = Math.ceil(fc / margin);
+      document.getElementById('rBreakeven').textContent = be.toLocaleString();
+      document.getElementById('rBeDetail').textContent = product + ' per month';
+      beCard.className = 'result-card amber';
+      document.getElementById('beExplain').textContent =
+        'You need to sell ' + be + ' ' + product + ' per month to cover all costs. ' +
+        'That\'s because your fixed costs ($' + fc.toLocaleString() + ') divided by your contribution margin ($' + margin.toFixed(2) + ') = ' + be + ' units. ' +
+        'Every sale after #' + be + ' is pure profit!';
+    }
+
+    drawProfitChart(fc, vc, price, margin);
+    goToStep(4);
+    setupScenarioSliders(fc, vc, price);
+  }
+
+  // ---- Charts ----
+  function drawProfitChart(fc, vc, price, margin) {
+    const maxUnits = margin > 0 ? Math.ceil((fc / margin) * 2.5) : 100;
+    const labels = [];
+    const profits = [];
+    const step = Math.max(1, Math.floor(maxUnits / 20));
+    for (let u = 0; u <= maxUnits; u += step) {
+      labels.push(u);
+      profits.push((price * u) - (vc * u) - fc);
+    }
+    if (profitChartInstance) profitChartInstance.destroy();
+    const ctx = document.getElementById('profitChart').getContext('2d');
+    profitChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Monthly Profit / Loss ($)',
+          data: profits,
+          borderColor: '#2563eb',
+          backgroundColor: profits.map(v => v >= 0 ? 'rgba(22,163,74,0.15)' : 'rgba(220,38,38,0.1)'),
+          fill: true,
+          tension: 0.2,
+          pointRadius: 2,
+          borderWidth: 2.5,
+          segment: {
+            borderColor: ctx2 => ctx2.p0.parsed.y < 0 && ctx2.p1.parsed.y < 0 ? '#dc2626' : ctx2.p0.parsed.y >= 0 && ctx2.p1.parsed.y >= 0 ? '#16a34a' : '#d97706'
+          }
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: ctx => (ctx.raw >= 0 ? 'Profit: $' : 'Loss: $') + Math.abs(ctx.raw).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+            }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Units Sold / Month' } },
+          y: {
+            title: { display: true, text: 'Profit / Loss ($)' },
+            ticks: { callback: v => '$' + v.toLocaleString() }
+          }
+        }
+      }
+    });
+  }
+
+  // ---- Scenario Explorer ----
+  function setupScenarioSliders(fc, vc, price) {
+    const be = bizData.margin > 0 ? Math.ceil(fc / bizData.margin) : 50;
+    const sUnits = document.getElementById('sUnits');
+    sUnits.max = Math.max(be * 3, 100);
+    sUnits.value = be;
+    document.getElementById('sPrice').value = price;
+    document.getElementById('sPrice').max = Math.max(price * 3, 50);
+    document.getElementById('sFixed').value = fc;
+    document.getElementById('sFixed').max = Math.max(fc * 3, 5000);
+    updateScenario();
+  }
+
+  function updateScenario() {
+    const units = parseInt(document.getElementById('sUnits').value);
+    const price = parseFloat(document.getElementById('sPrice').value);
+    const fc = parseFloat(document.getElementById('sFixed').value);
+    const vc = bizData.varCostPerUnit || 0;
+
+    document.getElementById('sUnitsVal').textContent = units;
+    document.getElementById('sPriceVal').textContent = '$' + price.toFixed(2);
+    document.getElementById('sFixedVal').textContent = '$' + fc.toLocaleString();
+
+    const revenue = price * units;
+    const totalCost = fc + (vc * units);
+    const profit = revenue - totalCost;
+    const margin = price - vc;
+    const be = margin > 0 ? Math.ceil(fc / margin) : null;
+
+    document.getElementById('sVarCost').textContent = '$' + vc.toFixed(2);
+    document.getElementById('sRevenue').textContent = '$' + revenue.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    document.getElementById('sTotalCost').textContent = '$' + totalCost.toLocaleString('en-US', { maximumFractionDigits: 0 });
+    document.getElementById('sProfit').textContent = (profit >= 0 ? '$' : '-$') + Math.abs(profit).toLocaleString('en-US', { maximumFractionDigits: 0 });
+    document.getElementById('sProfitCard').className = 'result-card ' + (profit >= 0 ? 'green' : 'red');
+
+    document.getElementById('sBe').textContent = be ? be.toLocaleString() : 'N/A';
+    document.getElementById('sBeCard').className = 'result-card ' + (be && units >= be ? 'green' : 'amber');
+
+    // Tip
+    const tip = document.getElementById('scenarioTip');
+    if (margin <= 0) {
+      tip.textContent = 'Your price ($' + price.toFixed(2) + ') is below your variable cost ($' + vc.toFixed(2) + '). Raise your price to make any sale worthwhile.';
+    } else if (be && units < be) {
+      tip.textContent = 'You need ' + (be - units) + ' more sales per month to break even. Try raising the price or lowering fixed costs.';
+    } else {
+      tip.textContent = 'You\'re above breakeven! Each additional sale adds $' + margin.toFixed(2) + ' of pure profit.';
+    }
+
+    drawScenarioChart(units, price, fc, vc);
+  }
+
+  function drawScenarioChart(currentUnits, price, fc, vc) {
+    const maxU = Math.max(currentUnits * 2, 50);
+    const labels = [];
+    const revData = [];
+    const costData = [];
+    const step = Math.max(1, Math.floor(maxU / 25));
+    for (let u = 0; u <= maxU; u += step) {
+      labels.push(u);
+      revData.push(price * u);
+      costData.push(fc + vc * u);
+    }
+    if (scenarioChartInstance) scenarioChartInstance.destroy();
+    const ctx = document.getElementById('scenarioChart').getContext('2d');
+    scenarioChartInstance = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Revenue',
+            data: revData,
+            borderColor: '#16a34a',
+            backgroundColor: 'rgba(22,163,74,0.08)',
+            fill: false,
+            tension: 0,
+            borderWidth: 2.5,
+            pointRadius: 0
+          },
+          {
+            label: 'Total Costs',
+            data: costData,
+            borderColor: '#dc2626',
+            backgroundColor: 'rgba(220,38,38,0.08)',
+            fill: false,
+            tension: 0,
+            borderWidth: 2.5,
+            pointRadius: 0
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          tooltip: {
+            callbacks: { label: ctx => ctx.dataset.label + ': $' + ctx.raw.toLocaleString('en-US', { maximumFractionDigits: 0 }) }
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Units Sold / Month' } },
+          y: { title: { display: true, text: 'Dollars ($)' }, ticks: { callback: v => '$' + v.toLocaleString() } }
+        }
+      }
+    });
+  }
+
+  // Init
+  updateProgress();
+</script>
+</body>
+</html>
